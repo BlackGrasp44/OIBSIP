@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    table {
+      border-collapse: collapse;
+    }
+    td {
+      padding: 10px;
+      border-radius: 1px solid black;
+      border-style:ridge;
+    }
+    .calculator {
+      display: block;
+      width: 430px;
+      
+      padding: 10px;
+      background:grey;
+    }
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      
+    }
+    #history {
+      width: 430px;
+      height: 180px;
+    }
+    #result
+    {
+      background-color: aquamarine;
+       width:396px;
+       height:48px;
+    }
+    input[type="button"] {
+      width: 60px;
+      height: 48px;
+      font-size: x-large;
+      margin: 2px;
+      
+      background-color:lightgoldenrodyellow;
+    }
+  </style>
+  <title>Calculator</title>
+</head>
+<body>
+  <div class="calculator">
+    <label><h1 style="font-size:48px; text-align:center;color: orangered;">Calculator</h1></label>
+  <table>
+    <tr>
+      <td colspan="5"><input type="text" style="font-size: large;color:lightslategray;height:84dp" id="result" readonly></td>
+    </tr>
+    <tr>
+      <td><input type="button" value="(" onclick="append('(')"></td>
+      <td><input type="button" value=")" onclick="append(')')"></td>
+      <td><input type="button" value="X^2" onclick="Pow()"></td>
+      <td><input type="button" value="1/X" onclick="Reciprocal()"></td>
+      <td><input type="button" value="√" onclick="Sqrt()"></td>  
+    </tr>
+    <tr>
+      <td><input type="button" value="MC" onclick="clearMemory()"></td>
+      <td><input type="button" value="MR" onclick="recallMemory()"></td>
+      <td><input type="button" value="M+" onclick="addToMemory()"></td>
+      <td><input type="button" value="M-" onclick="subtractFromMemory()"></td>
+      <td><input type="button" value="C" onclick="clearDisplay()"></td>
+      
+    </tr>
+    
+    
+    <tr>
+      <td><input type="button" value="7" onclick="append(7)"></td>
+      <td><input type="button" value="8" onclick="append(8)"></td>
+      <td><input type="button" value="9" onclick="append(9)"></td>
+      <td><input type="button" value="/" onclick="append('/')"></td>
+      <td><input type="button" value="Del" onclick="deleteDigit()"></td>
+    </tr>
+    <tr>
+      <td><input type="button" value="4" onclick="append(4)"></td>
+      <td><input type="button" value="5" onclick="append(5)"></td>
+      <td><input type="button" value="6" onclick="append(6)"></td>
+      <td><input type="button" value="*" onclick="append('*')"></td>
+      <td><input type="button" value="+/-" onclick="Sign()"></td>
+    </tr>
+    <tr>
+      <td><input type="button" value="1" onclick="append(1)"></td>
+      <td><input type="button" value="2" onclick="append(2)"></td>
+      <td><input type="button" value="3" onclick="append(3)"></td>
+      <td><input type="button" value="-" onclick="append('-')"></td>
+      <td rowspan="2"><input type="button" style="width:56px;height:124px;" value="=" onclick="calculate()"></td>
+    </tr>
+    <tr>
+      <td><input type="button" value="00" onclick="append(00)"></td>
+      <td><input type="button" value="0" onclick="append(0)"></td>
+      <td><input type="button" value="." onclick="append('.')"></td>
+      <td><input type="button" value="+" onclick="append('+')"></td>
+    </tr>
+  </table>
+  <textarea style="background-color:antiquewhite;" id="history" readonly></textarea>
+</div>
+
+  <script>
+    var memory = 0;
+
+    function append(value) {
+      document.getElementById("result").value += value;
+    }
+
+    function calculate() {
+      var result;
+      try {
+        result = eval(document.getElementById('result').value);
+        addToHistory(document.getElementById('result').value + ' = ' + result);
+      } catch (error) {
+        result = 'Error';
+      }
+      document.getElementById('result').value = result;
+    }
+
+    function addToHistory(entry) {
+      document.getElementById('history').value += entry + '\n';
+    }
+
+    function clearMemory() {
+      addToHistory('Memory is cleared!');
+      memory = 0;
+    }
+
+    function recallMemory() {
+      
+       append(memory);
+    }
+
+    function addToMemory() {
+      
+      var currentInput = parseFloat(document.getElementById("result").value);
+      addToHistory(currentInput+' value is added to Memory!');
+      memory += currentInput;
+    }
+
+    function subtractFromMemory() {
+      
+      var currentInput = parseFloat(document.getElementById("result").value);
+      addToHistory(currentInput+' value is subtracted from Memory!');
+      memory -= currentInput;
+    }
+
+    function Pow() {
+      var currentInput = parseFloat(document.getElementById("result").value);
+      var result = Math.pow(currentInput, 2);
+      addToHistory('('+currentInput + ')^2 = ' + result);
+      document.getElementById("result").value = result;
+    }
+
+    function Sqrt() {
+      var currentInput = parseFloat(document.getElementById("result").value);
+      var result = Math.sqrt(currentInput);
+      addToHistory('√('+currentInput+ ') = ' + result);
+      document.getElementById("result").value = result;
+    }
+
+    function Reciprocal() {
+      var currentInput = parseFloat(document.getElementById("result").value);
+      var result = 1 / currentInput;
+      addToHistory('1/('+currentInput+ ') = ' + result);
+      document.getElementById("result").value = result;
+    }
+
+    function Sign() {
+      var currentInput = parseFloat(document.getElementById("result").value);
+      var result = -currentInput;
+      addToHistory('-('+currentInput+ ') = ' + result);
+      document.getElementById("result").value = result;
+    }
+
+    function deleteDigit() {
+      var display = document.getElementById("result");
+      var currentInput = display.value;
+      display.value = currentInput.slice(0, -1);
+    }
+
+    function clearDisplay() {
+      document.getElementById("result").value = "";
+    }
+  </script>
+</body>
+</html>
+
