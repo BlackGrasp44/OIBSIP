@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>To-Do List</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: antiquewhite;
+            
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th{
+            background-color: aliceblue;
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            font-size: x-large;
+            color: navy;
+        
+        }
+        td {
+            background-color: peachpuff;
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        
+
+        .form {
+            padding: 24px;
+            align-items: center;
+            justify-content: center;
+            background-color: azure;
+            margin-bottom: 6px;
+        }
+
+         input[type="text"] {
+            padding: 6px;
+            width: 250px;
+            height:48dp;
+            font-size:large;
+        }
+
+        input[type="submit"] {
+            padding: 6px 12px;
+            background-color: gold;
+            font-size:large;
+            color:white;
+            height:48dp;
+        }
+
+        .done {
+            background-color: chartreuse;
+            color:white;
+            font-size: large;
+            padding: 6px 12px;
+            
+        }
+
+        
+    </style>
+    <title>TO-DO LIST</title>
+</head>
+<body>
+    
+    
+    <div class="form">
+        <h1 style="color: tomato;">My To-Do Schedule List</h1>
+        <input type="text" id="title" placeholder="Title">
+        <input type="text" id="desc" placeholder="Description">
+        <input type="submit" value="Add" onclick="addItem()">
+    </div>
+
+    <table id="table">
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>CheckBox</th>
+        </tr>
+    </table>
+
+    <script>
+        function addItem() {
+            var title = document.getElementById("title");
+            var desc = document.getElementById("desc");
+
+            var title = title.value;
+            var desc = desc.value;
+
+            if (title.trim() == "" || desc.trim() == "") {
+                alert("Please enter a title and description");
+                return;
+            }
+
+            var table = document.getElementById("table");
+            var row = table.insertRow();
+
+            var titleCell = row.insertCell(0);
+            titleCell.innerHTML = title;
+            titleCell.style.fontSize="large";
+
+            var descCell = row.insertCell(1);
+            descCell.innerHTML = desc;
+            descCell.style.fontSize="large";
+
+            var doneCell = row.insertCell(2);
+            var doneButton = document.createElement("button");
+            doneButton.innerHTML = "Done";
+            doneButton.className = "done";
+            doneButton.onclick = function () {
+                deleteItem(row);
+            };
+            doneCell.appendChild(doneButton);
+            document.getElementById("title").value="";
+            document.getElementById("desc").value="";
+        }
+
+        function deleteItem(row) {
+            var table = document.getElementById("table");
+            table.deleteRow(row.rowIndex);
+        }
+    </script>
+</body>
+</html>
